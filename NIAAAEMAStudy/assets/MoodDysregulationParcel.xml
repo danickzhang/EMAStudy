@@ -1,0 +1,59 @@
+<root>
+	<category>
+		<description>MOOD Change</description>
+		<question id="q511" type="radio">
+			<text>How much did your mood change?</text>
+			<answer id = "1">1 - Very Slightly or Not At All</answer>
+			<answer id = "2">2 - A little</answer>
+			<answer id = "3">3 - Somewhat</answer>
+			<answer id = "4">4 - Quite a bit</answer>
+			<answer id = "5">5 - Extremely</answer>
+		</question>
+
+		<question id="q512" type="radio">
+			<text>Are you in a better or worse mood now than before?</text>
+			<answer id="y">Better</answer>
+			<answer id="n" skip="q514">Worse</answer>
+		</question>
+		
+		<question id= "q513" type = "check">
+			<text>If better, WHAT TRIGGERED your mood change? (Check all that apply)</text>
+			<answer id = "1" skip="q521">Received good news</answer>
+			<answer id = "2" skip="q521">Someone complimented me</answer>
+			<answer id = "3" skip="q521">Used alcohol</answer>
+			<answer id = "4" skip="q521">Used drugs</answer>
+			<answer id = "5" skip="q521">Used prescribed medications</answer>
+			<answer id = "6" skip="q521">Had sex</answer>
+			<answer id = "7" skip="q521">Spent time with someone close to me</answer>
+			<answer id = "8" skip="q521">Had a nice day or evening</answer>
+			<answer id = "9" skip="q521">Exercised</answer>
+			<answer id = "A" skip="q521">I did something I am proud of</answer>
+			<answer id = "B" skip="q521">Felt accepted and supported by someone</answer>
+			<answer id = "C" skip="q521">Other</answer>
+			<answer id = "D" skip="q521" action="uncheck">THERE WERE NO TRIGGERS</answer>
+		</question>
+
+		<question id= "q514" type = "check">
+			<text>If worse, WHAT TRIGGERED your mood change? (Check all that apply)</text>
+			<answer id = "1">Lack of sleep</answer>
+			<answer id = "2">Argument or conflict</answer>
+			<answer id = "3">Used alcohol</answer>
+			<answer id = "4">Used drugs</answer>
+			<answer id = "5">Used prescribed medications</answer>
+			<answer id = "6">Problem at work or school</answer>
+			<answer id = "7">Stress</answer>
+			<answer id = "8">Pain or bodiy discomfort</answer>
+			<answer id = "9">Received bad news</answer>
+			<answer id = "A">Upset/mad at self</answer>
+			<answer id = "B">Felt rejected by someone</answer>
+			<answer id = "C">Other</answer>
+			<answer id = "D" action="uncheck">THERE WERE NO TRIGGERS</answer>
+		</question>	
+	</category>
+
+	<externalsource baseid="q52" filename="MoodImpulsivityItems.xml"></externalsource>
+
+	<externalsource baseid="q53" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
+	<externalsource baseid="q54" filename="SituationAndSetting.xml"></externalsource>
+
+</root>

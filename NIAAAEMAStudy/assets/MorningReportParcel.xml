@@ -1,0 +1,59 @@
+<root>
+	<category>
+		<description>LAST NIGHT’S DRINKING</description>
+		<question id="q111" type="radio">
+			<text>Did you DRINK ALCOHOL last night?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n" skip="q141">No</answer>
+		</question>
+	</category>
+
+	<externalsource baseid="q12" filename="DrinkingQuantityType.xml"></externalsource>
+
+	<category>
+		<description>Hangover last night</description>
+		<question id="q131" type="radio">
+			<text>Do you have a HANGOVER from last night’s drinking?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n">No</answer>
+		</question>
+	</category>
+
+	<category>
+		<description>Recent Sexual Behavior</description>
+		<question id="q141" type="radio">
+			<text>Did you HAVE ANAL OR VAGINAL SEX yesterday?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n" skip="q151">No</answer>
+		</question>
+		<question id="q142" type="radio">
+			<text>If so, did you use a condom?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n">No</answer>
+		</question>
+	</category>
+
+	<category>
+		<description>RECENT SMOKING</description>
+		<question id="q151" type="radio">
+			<text>Have you SMOKED A CIGARETTE in the PAST 15 MINUTES?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n" skip="q171">No</answer>
+		</question>
+		<question id="q152" type="number">
+			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
+			<answer id = "item">cigarette(s)</answer>
+			<answer id = "min">1</answer>
+			<answer id = "max">24</answer>
+		</question>
+	</category>
+
+	<externalsource baseid="q16" filename="RecentSmokingEffects.xml"></externalsource>
+
+	<externalsource baseid="q17" filename="MoodImpulsivityItems.xml"></externalsource>
+
+	<externalsource baseid="q18" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
+	<externalsource baseid="q19" filename="AlcoholHangoverSymptoms.xml"></externalsource>
+	<externalsource baseid="q1a" filename="SituationAndSetting.xml"></externalsource>
+	
+</root>

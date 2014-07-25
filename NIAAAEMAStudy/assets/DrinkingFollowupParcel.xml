@@ -1,0 +1,38 @@
+<root>
+	<category>
+		<description>Drinking Follow-up</description>
+		<question id="q411" type="radio">
+			<text>Have you CONSUMED ALCOHOL since the last recording?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n" skip="q441">No</answer>
+		</question>
+	</category>
+
+	<externalsource baseid="q42" filename="DrinkingQuantityType.xml"></externalsource>
+	<externalsource baseid="q43" filename="DrinkingExpectancyEffects.xml"></externalsource>
+
+
+	<category>
+		<description>RECENT SMOKING</description>
+		<question id="q441" type="radio">
+			<text>Have you SMOKED A CIGARETTE in the PAST 15 MINUTES?</text>
+			<answer id = "y">Yes</answer>
+			<answer id = "n" skip="q461">No</answer>
+		</question>
+		<question id="q442" type="number">
+			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
+			<answer id = "item">cigarette(s)</answer>
+			<answer id = "min">1</answer>
+			<answer id = "max">24</answer>
+		</question>
+	</category>
+
+	<externalsource baseid="q45" filename="RecentSmokingEffects.xml"></externalsource>
+
+	<externalsource baseid="q46" filename="MoodImpulsivityItems.xml"></externalsource>
+
+	<externalsource baseid="q47" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
+	<externalsource baseid="q48" filename="AlcoholHangoverSymptoms.xml"></externalsource>
+	<externalsource baseid="q49" filename="SituationAndSetting.xml"></externalsource>
+	
+</root>
