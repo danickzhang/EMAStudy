@@ -2,12 +2,15 @@ package edu.missouri.niaaa.ema;
 
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.math.BigInteger;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,8 +21,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import edu.missouri.niaaa.ema.services.SensorService;
-import edu.missouri.niaaa.ema.survey.XMLSurveyActivity;
+import edu.missouri.niaaa.ema.activity.AdminManageActivity;
+import edu.missouri.niaaa.ema.activity.MorningScheduler;
+import edu.missouri.niaaa.ema.activity.SurveyMenu;
+import edu.missouri.niaaa.ema.activity.SuspensionTimePicker;
+import edu.missouri.niaaa.ema.location.LocationUtilities;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -36,13 +43,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.os.StrictMode;
 import android.os.Vibrator;
-import android.os.PowerManager.WakeLock;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -92,6 +95,8 @@ public class MainActivity extends Activity {
 		
 		setListeners();
 		
+		setSharedValue();
+		
 		IntentFilter suspensionIntent = new IntentFilter(Utilities.BD_ACTION_SUSPENSION);
 		this.registerReceiver(suspensionReceiver, suspensionIntent);
 
@@ -128,6 +133,25 @@ public class MainActivity extends Activity {
         }
 	}
 
+	
+	private void setSharedValue(){
+		
+		//public key
+		try {
+			Utilities.publicKey = getPublicKey();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Toast.makeText(getApplicationContext(), R.string.public_key_lost, Toast.LENGTH_SHORT).show();
+			finish();
+		}
+		
+		//ID
+		
+//		locationM = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	}
+	
+	
 	private Dialog UserPWDSetDialog(Context context, final String ID) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		final View textEntryView = inflater.inflate(R.layout.pin_input, null);  
@@ -184,7 +208,7 @@ public class MainActivity extends Activity {
  		        			//imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
  		        			//imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
- 		        			Toast.makeText(getApplicationContext(), "Set PIN failed. Please try again.", Toast.LENGTH_SHORT).show();
+ 		        			Toast.makeText(getApplicationContext(), R.string.set_upin_failed, Toast.LENGTH_SHORT).show();
  		        			//set return code
     	
  		        			finish();
@@ -196,7 +220,7 @@ public class MainActivity extends Activity {
  		        	imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
  		        	imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
- 		        	Toast.makeText(getApplicationContext(), "Set PIN failed. Please try again.", Toast.LENGTH_SHORT).show();
+ 		        	Toast.makeText(getApplicationContext(), R.string.set_upin_error, Toast.LENGTH_SHORT).show();
  		        	//set return code
 
  		        	finish();
@@ -231,15 +255,30 @@ public class MainActivity extends Activity {
 		section_8 = (Button) findViewById(R.id.section_label8);
 		section_9 = (Button) findViewById(R.id.section_label9);
 		
+
 		section_1.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				// TODO Auto-generated method stub
 				Utilities.Log(TAG, "section 1 on click listener");
 				
-				Intent i = new Intent(MainActivity.this,SensorService.class);
-				startService(i);
+				String act = ((Button) view).getText().toString();
+				//start service
+				if(act.equals(getString(R.string.section_1))){
+//					((Button)view).setText(R.string.section_2);
+					
+					
+				}
+				
+				//stop service
+				else{
+//					((Button)view).setText(R.string.section_1);
+					
+				}
+				
+				
+				
 			}
 		});
 		
@@ -249,8 +288,8 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Utilities.Log(TAG, "section 2 on click listener");
-				Intent i = new Intent(MainActivity.this,SensorService.class);
-				stopService(i);
+//				Intent i = new Intent(MainActivity.this,SensorLocationService.class);
+//				stopService(i);
 			}
 		});
 		
@@ -262,7 +301,7 @@ public class MainActivity extends Activity {
 				Utilities.Log(TAG, "section 3 on click listener");
 				
 				if(!getSuspension()){
-					startActivity(new Intent(MainActivity.this,SurveyMenu.class));
+					startActivity(new Intent(MainActivity.this, SurveyMenu.class));
 				}else{
 					suspensionAlert();
 				}
@@ -277,7 +316,6 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Utilities.Log(TAG, "section 4 on click listener");
 				
-
 			}
 		});
 		
@@ -363,7 +401,7 @@ public class MainActivity extends Activity {
 				    			c.setTimeInMillis(startTimeStamp);
 				    			
 				    			try {
-				    				Utilities.writeSurveyToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
+				    				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
 				    						Utilities.sdf.format(c.getTime()), Utilities.sdf.format(Calendar.getInstance().getTime()));
 				    			} catch (IOException e) {
 				    				// TODO Auto-generated catch block
@@ -377,13 +415,13 @@ public class MainActivity extends Activity {
 				    			
 				            	Vibrator v = (Vibrator) MainActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
 				    	        v.vibrate(500);
-				    	        Toast.makeText(getApplicationContext(), "Suspension ends", Toast.LENGTH_LONG).show();
+				    	        Toast.makeText(getApplicationContext(), R.string.suspension_end, Toast.LENGTH_LONG).show();
 						    }
 						}).create().show();
 					}
 				}
 				else{
-					Toast.makeText(MainActivity.this, "you may need to complete morning survey for today first", Toast.LENGTH_LONG).show();
+					Toast.makeText(MainActivity.this, R.string.morning_report_unfinished, Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -397,9 +435,10 @@ public class MainActivity extends Activity {
 				Utilities.getSP(MainActivity.this, Utilities.SP_SURVEY).getLong(Utilities.SP_KEY_BED_TIME_LONG, -1)
 						);
 				
-				Utilities.triggerDrinkingFollowup(MainActivity.this);
+//				Utilities.triggerDrinkingFollowup(MainActivity.this);
 //				Utilities.morningSet(MainActivity.this);
 				
+				finish();
 			}
 		});
 		
@@ -410,14 +449,25 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Utilities.Log(TAG, "section 8 on click listener ");
 				
+//				startService(new Intent(getApplicationContext(), SensorLocationService.class));
+//				bindService(new Intent(getApplicationContext(), SensorLocationService.class), conn, Context.BIND_AUTO_CREATE);
+				
+//				LocationManager locationM = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//				LocationUtilities.startGPS(MainActivity.this, locationM);
+				
+//				LocationUtilities.requestLocation(SensorLocationService.locationM);
+				
+				sendBroadcast(new Intent(LocationUtilities.ACTION_START_LOCATION));
+				
 				//Utilities.scheduleRandomSurvey(MainActivity.this);
-				Utilities.reScheduleRandom(MainActivity.this);
+//				Utilities.reScheduleRandom(MainActivity.this);
 				
 //				Intent i = new Intent(Utilities.BD_ACTION_DAEMON);
 //				i.putExtra(Utilities.BD_ACTION_DAEMON_FUN, -1);
 //				sendBroadcast(i);
 			}
 		});
+		
 		section_9.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -428,6 +478,16 @@ public class MainActivity extends Activity {
 				Utilities.getSP(MainActivity.this, Utilities.SP_SURVEY).getInt(Utilities.SP_KEY_SURVEY_REMINDER_SEQ, -1)+
 				Utilities.getSP(MainActivity.this, Utilities.SP_SURVEY).getBoolean(Utilities.SP_KEY_SURVEY_UNDERGOING, false) + " "+
 				Utilities.getSP(MainActivity.this, Utilities.SP_SURVEY).getString(Utilities.SP_KEY_SURVEY_UNDERREMINDERING, "nothing"));
+				
+//				stopService(new Intent(getApplicationContext(), SensorLocationService.class));
+//				unbindService(conn);
+				
+//				LocationManager locationM = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//				LocationUtilities.stopGPS(getApplicationContext(), locationM);
+				
+//				LocationUtilities.removeLocation(SensorLocationService.locationM);
+				
+				sendBroadcast(new Intent(LocationUtilities.ACTION_STOP_LOCATION));
 				
 //				Utilities.cancelReminder(MainActivity.this);
 //				Utilities.cancelTrigger(MainActivity.this);
@@ -467,7 +527,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void suspensionAlert(){
-		Toast.makeText(getApplicationContext(), "Under suspension", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), R.string.suspension_under, Toast.LENGTH_LONG).show();
 	}
 	
 	private void bedTimeCheckDialog(){		
@@ -614,6 +674,7 @@ public class MainActivity extends Activity {
 		if(item.getItemId() == R.id.manage){
 			management();
 		}
+		
 		// ABOUT
 		else if(item.getItemId() == R.id.about){
 			
@@ -635,7 +696,7 @@ public class MainActivity extends Activity {
 			.setCancelable(false)
 			.setTitle(getString(R.string.menu_about)+"  ver."+versionName+"."+versionCode)
 			.setMessage("User ID: "+ID+"\n"+Utilities.getScheduleForToady(MainActivity.this))
-			.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { 
 
 				@Override 
 				public void onClick(DialogInterface dialog, int which) { 
@@ -667,7 +728,7 @@ public class MainActivity extends Activity {
 			c.setTimeInMillis(startTimeStamp);
 			
 			try {
-				Utilities.writeSurveyToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
+				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
 						Utilities.sdf.format(c.getTime()), Utilities.sdf.format(Calendar.getInstance().getTime()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -675,9 +736,26 @@ public class MainActivity extends Activity {
 			}
 			sp.edit().remove(Utilities.SP_KEY_SUSPENSION_TS).commit();
 			
-			Toast.makeText(getApplicationContext(), "Suspension ends", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), R.string.suspension_end, Toast.LENGTH_LONG).show();
 		}
 	};
+	
+	
+	private PublicKey getPublicKey() throws Exception {
+		// TODO Auto-generated method stub
+        InputStream is = getResources().openRawResource(R.raw.publickey);
+		ObjectInputStream ois = new ObjectInputStream(is);
+
+		BigInteger m = (BigInteger)ois.readObject();
+		BigInteger e = (BigInteger)ois.readObject();
+	    RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
+		
+	   
+	    KeyFactory fact = KeyFactory.getInstance("RSA", "BC");
+	    PublicKey pubKey = fact.generatePublic(keySpec);
+	    
+		return pubKey; 
+	}
 	
 //================================================================================================================================
 //================================================================================================================================

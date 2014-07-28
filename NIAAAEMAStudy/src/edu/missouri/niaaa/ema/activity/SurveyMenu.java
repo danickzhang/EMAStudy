@@ -1,4 +1,4 @@
-package edu.missouri.niaaa.ema;
+package edu.missouri.niaaa.ema.activity;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.xml.sax.InputSource;
 
+import edu.missouri.niaaa.ema.R;
+import edu.missouri.niaaa.ema.Utilities;
 import edu.missouri.niaaa.ema.survey.SurveyInfo;
 import edu.missouri.niaaa.ema.survey.XMLConfigParser;
 import edu.missouri.niaaa.ema.survey.XMLSurveyActivity;
@@ -20,7 +22,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,9 +61,9 @@ public class SurveyMenu extends Activity {
 			finish();
 		}
 		else{
-			setTitle("Self-Assessment Survey Menu");
+			setTitle(R.string.survey_menu_title);
 			TextView tv = new TextView(this);
-			tv.setText("Select a survey");
+			tv.setText(R.string.survey_menu_select);
 			linearLayout.addView(tv);
 			for(SurveyInfo survey: surveys){
 				Utilities.Log(TAG, survey.getDisplayName());
@@ -86,7 +87,7 @@ public class SurveyMenu extends Activity {
 							Calendar mT = Calendar.getInstance();
 							Calendar noonT = Calendar.getInstance();
 							noonT.set(Calendar.HOUR_OF_DAY, 12);
-							noonT.set(Calendar.MINUTE, 0);
+							noonT.set(Calendar.MINUTE, 20);
 							noonT.set(Calendar.SECOND, 0);
 							
 							Calendar threeT = Calendar.getInstance();
@@ -183,10 +184,10 @@ public class SurveyMenu extends Activity {
 		switch(requestCode){
 		case 0:
 			if(resultCode == 1){
-				Toast.makeText(this, "timeout for completing current survey.", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.survey_timeout, Toast.LENGTH_LONG).show();
 			}
 			else if(resultCode == 2) {
-				Toast.makeText(this, "you may need to complete morning survey for today first", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.morning_report_unfinished, Toast.LENGTH_LONG).show();
 			}else{
 				
 			}

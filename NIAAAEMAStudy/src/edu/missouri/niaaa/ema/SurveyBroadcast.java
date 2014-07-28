@@ -1,7 +1,6 @@
 package edu.missouri.niaaa.ema;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 import edu.missouri.niaaa.ema.survey.XMLSurveyActivity;
 import android.app.AlarmManager;
@@ -11,10 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
@@ -24,9 +20,6 @@ public class SurveyBroadcast extends BroadcastReceiver {
 
 	String TAG = "survey Broadcast";
 	
-  	SoundPool sp;
-	private HashMap<Integer, Integer> soundsMap;
-	MediaPlayer mp;
 	
 	
 	@Override
@@ -36,14 +29,11 @@ public class SurveyBroadcast extends BroadcastReceiver {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		
 		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);  
-        WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Gank");  
-        wl.acquire();  
+//		WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "SurveyBroadcast");
+        WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SurveyBroadcast");  
+        wl.acquire(1*60*1000);
         
-//        sp = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-//		soundsMap = new HashMap<Integer, Integer>();
-//		soundsMap.put(1, sp.load(context, R.raw.alarm_sound, 0));
-        
-        
+
         SharedPreferences shp = Utilities.getSP(context, Utilities.SP_SURVEY);
         String action = intent.getAction();
         String surveyName = intent.getStringExtra(Utilities.SV_NAME);
@@ -64,7 +54,7 @@ public class SurveyBroadcast extends BroadcastReceiver {
 	        v.vibrate(500);
         }
         
-/*      schedule survey*/
+/*      reschedule survey*/
         else if(action.equals(Utilities.BD_ACTION_SCHEDULE_ALL)){
         	Utilities.LogB(TAG, "boot upppppppppppppppp!");
         	
@@ -178,8 +168,6 @@ public class SurveyBroadcast extends BroadcastReceiver {
         	itReminder.putExtra(Utilities.SV_NAME, surveyName);
 			PendingIntent piReminder = PendingIntent.getBroadcast(context, 0, itReminder, Intent.FLAG_ACTIVITY_NEW_TASK);
 			
-			long ti = Calendar.getInstance().getTimeInMillis();
-
 			//bypass if under_remindering
 			if(shp.getString(Utilities.SP_KEY_SURVEY_UNDERREMINDERING, "").equals("")){
 				shp.edit().putString(Utilities.SP_KEY_SURVEY_UNDERREMINDERING, surveyName).commit();
@@ -302,10 +290,7 @@ public class SurveyBroadcast extends BroadcastReceiver {
 			
 		}
 		
-		else if(action.equals("sounds_alarm")){
-			Utilities.LogB(TAG, "~~~~sound alarm");
-			mp = MediaPlayer.create(context, R.raw.alarm_sound);
-	    	mp.start();
+		else{
 			
 		}
 

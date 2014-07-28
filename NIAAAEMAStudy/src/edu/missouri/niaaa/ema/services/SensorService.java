@@ -1,7 +1,7 @@
 package edu.missouri.niaaa.ema.services;
 
-import edu.missouri.niaaa.ema.SurveyMenu;
 import edu.missouri.niaaa.ema.Utilities;
+import edu.missouri.niaaa.ema.activity.SurveyMenu;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;

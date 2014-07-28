@@ -1,9 +1,11 @@
-package edu.missouri.niaaa.ema;
+package edu.missouri.niaaa.ema.activity;
 
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Calendar;
 
+import edu.missouri.niaaa.ema.R;
+import edu.missouri.niaaa.ema.Utilities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,7 +44,7 @@ public class MorningScheduler extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.morning_scheduler_layout);
+		setContentView(R.layout.activity_morning_scheduler);
 		startBedReportCal = Calendar.getInstance();
 		
 		sp = getSharedPreferences(Utilities.SP_BED_TIME, MODE_PRIVATE);
@@ -105,7 +107,7 @@ public class MorningScheduler extends Activity {
 				if(hour >= 3 && hour <12 || (hour == 12 && minute == 0)){
 //				if(true){
 					
-					save();
+					setAsDefault();
 					Utilities.bedtimeComplete(MorningScheduler.this, hour, minute);//as following
 					
 //					//set flag for bedtime, press-in survey should be blocked
@@ -116,20 +118,20 @@ public class MorningScheduler extends Activity {
 //					
 //					//schedule for next morning
 //					Utilities.scheduleMorningSurvey(MorningScheduler.this, hour, minute);
-					
-					//next midnight
+//					
+//					//next midnight
 //					Intent i = new Intent(Utilities.BD_ACTION_DAEMON);
-//					i.putExtra(Utilities.BD_ACTION_DAEMON_FUN, -3);
+//					i.putExtra(Utilities.BD_ACTION_DAEMON_FUNC, -3);
 //					sendBroadcast(i);
 					
 					NumberFormat nf = NumberFormat.getInstance();
 					nf.setMinimumIntegerDigits(2);
 					
-					Toast.makeText(getApplicationContext(),"Set wake-up time at "+nf.format(hour)+":"+nf.format(minute),Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.bedtime_set)+nf.format(hour)+":"+nf.format(minute),Toast.LENGTH_LONG).show();
 					nf = null;
 					
 					try {
-						Utilities.writeSurveyToFile(MorningScheduler.this, Utilities.CODE_BEDTIME, 
+						Utilities.writeEventToFile(MorningScheduler.this, Utilities.CODE_BEDTIME, 
 								Utilities.sdf.format(Utilities.getMorningCal(hour, minute).getTime()), 
 								Utilities.sdf.format(startBedReportCal.getTime()), 
 								Utilities.sdf.format(Calendar.getInstance().getTime()));
@@ -141,7 +143,7 @@ public class MorningScheduler extends Activity {
 					finish();
 				}
 				else{
-					Toast.makeText(getApplicationContext(),"Wake-up time must between 3:00 A.M. and 12:00 P.M.",Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(),R.string.bedtime_alert,Toast.LENGTH_LONG).show();
 				}
 			}});
 		
@@ -154,7 +156,7 @@ public class MorningScheduler extends Activity {
 			}});
 	}
 
-	private void save(){
+	private void setAsDefault(){
 		if(timeBox.isChecked()){
 			sp.edit().putInt(Utilities.SP_KEY_BED_TIME_HOUR, hour).commit();
 			sp.edit().putInt(Utilities.SP_KEY_BED_TIME_MINUTE, minute).commit();
