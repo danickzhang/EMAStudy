@@ -2,6 +2,7 @@ package edu.missouri.niaaa.ema;
 
 import java.util.Calendar;
 
+import edu.missouri.niaaa.ema.location.LocationUtilities;
 import edu.missouri.niaaa.ema.survey.XMLSurveyActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -39,6 +40,14 @@ public class SurveyBroadcast extends BroadcastReceiver {
         String surveyName = intent.getStringExtra(Utilities.SV_NAME);
         String triggerSeq = Utilities.SP_KEY_TRIGGER_SEQ_MAP.get(surveyName);
         int triggerMax = Utilities.MAX_TRIGGER_MAP.get(surveyName);
+        
+        
+        //restart gps
+        if(!surveyName.equals(Utilities.SV_NAME_MORNING)){
+        	if(Utilities.completedMorningToday(context) || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 3){
+        		context.sendBroadcast(new Intent(LocationUtilities.ACTION_START_LOCATION));
+        	}
+        }
         
         
 /*      suspension*/

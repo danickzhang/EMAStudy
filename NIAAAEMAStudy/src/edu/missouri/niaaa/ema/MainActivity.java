@@ -130,6 +130,11 @@ public class MainActivity extends Activity {
         	
         	//set fun to 0
 //        	sendBroadcast(new Intent(Utilities.BD_ACTION_DAEMON));
+        	
+        	//restart gps
+        	if(Utilities.completedMorningToday(this) || Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 3){
+        		sendBroadcast(new Intent(LocationUtilities.ACTION_START_LOCATION));
+        	}
         }
 	}
 
@@ -401,7 +406,7 @@ public class MainActivity extends Activity {
 				    			c.setTimeInMillis(startTimeStamp);
 				    			
 				    			try {
-				    				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
+				    				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", "", "", "",
 				    						Utilities.sdf.format(c.getTime()), Utilities.sdf.format(Calendar.getInstance().getTime()));
 				    			} catch (IOException e) {
 				    				// TODO Auto-generated catch block
@@ -728,7 +733,7 @@ public class MainActivity extends Activity {
 			c.setTimeInMillis(startTimeStamp);
 			
 			try {
-				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", 
+				Utilities.writeEventToFile(MainActivity.this, Utilities.CODE_SUSPENSION, "", "", "", "", 
 						Utilities.sdf.format(c.getTime()), Utilities.sdf.format(Calendar.getInstance().getTime()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -98,7 +98,7 @@ public class Utilities {
 /*	survey config*/
 	public final static int MAX_REMINDER = 3;
 	public final static int MAX_TRIGGER_MORNING = 1;//1
-	public final static int MAX_TRIGGER_RANDOM = 3;//6
+	public final static int MAX_TRIGGER_RANDOM = 3;//3
 	public final static int MAX_TRIGGER_FOLLOWUP = 3;//3
 	public final static int VOLUME = 8;//10
 	public final static String PHONE_BASE_PATH = "sdcard/TestResult_ema/";
@@ -261,7 +261,7 @@ public class Utilities {
 	public final static String VALIDATE_ADDRESS = 			"http://dslsrv8.cs.missouri.edu/~rs79c/Server/Crt/validateUser.php";
 //	public final static String WRITE_ARRAY_TO_FILE = 		"http://dslsrv8.cs.missouri.edu/~czcz4/Server/Crt/writeArrayToFile.php";
 //	public final static String WRITE_ARRAY_TO_FILE_DEC = 	"http://dslsrv8.cs.missouri.edu/~czcz4/Server/Crt/writeArrayToFileDec.php";
-	public final static String WRITE_ARRAY_TO_FILE_DEC = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/writeArrayToFileDec.php";
+	public final static String WRITE_ARRAY_TO_FILE_DEC = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/writeArrayToFileDec.php";
 //	public final static String UPLOAD_ADDRESS = WRITE_ARRAY_TO_FILE;
 	public final static String UPLOAD_ADDRESS = WRITE_ARRAY_TO_FILE_DEC;
 	public final static SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -303,13 +303,20 @@ public class Utilities {
 	
 	
 	/* random */
-	public static void scheduleRandomSurvey(Context context){
+	public static void scheduleRandomSurvey(Context context, boolean fromNoon){
 		
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.HOUR_OF_DAY, 23);//23
 		c.set(Calendar.MINUTE, 59);//59
 		
 		long base = Calendar.getInstance().getTimeInMillis();
+		if(fromNoon){
+			Calendar b = Calendar.getInstance();
+			b.set(Calendar.HOUR_OF_DAY, 12);
+			b.set(Calendar.MINUTE, 0);
+			b.set(Calendar.SECOND, 0);
+			base = b.getTimeInMillis();
+		}
 		long peak = c.getTimeInMillis();
 		
 		long unit = (peak-base)/(MAX_TRIGGER_RANDOM+1);//7;
@@ -334,6 +341,7 @@ public class Utilities {
 		
 		Intent scheduleIntent = new Intent(Utilities.BD_ACTION_SCHEDULE_RANDOM);
 		scheduleIntent.putExtra(Utilities.SV_NAME, Utilities.SV_NAME_RANDOM);
+		if(!fromNoon)
 		context.sendBroadcast(scheduleIntent);
 	}
 	
@@ -424,14 +432,19 @@ public class Utilities {
 			//write complete time
 			getSP(context, SP_BED_TIME).edit().putLong(SP_KEY_MORNING_COMPLETE_TIME, Calendar.getInstance().getTimeInMillis()).commit();
 			
-			if(isRandomScheduled(context)){
-				//reschedule today's random
-				reScheduleRandom(context);
-			}
-			else{
-				//schedule random
-				scheduleRandomSurvey(context);
-			}
+//			if(isRandomScheduled(context)){
+//				//reschedule today's random
+//				reScheduleRandom(context);
+//			}
+//			else{
+//				//schedule random
+//				scheduleRandomSurvey(context, false);
+//			}
+			
+			//instead, we do this as a new way:
+			scheduleRandomSurvey(context, true);
+			reScheduleRandom(context);
+			
 		}
 		
 		//before previous set morning time & before noon
@@ -501,12 +514,35 @@ public class Utilities {
 		}
 		else{
 			//schedule random
-			scheduleRandomSurvey(context);
+			scheduleRandomSurvey(context, false);
 		}
 		
 		//cancel existing if any
 		cancelMorning(context);
 		
+		//write to file random schedule
+		//3
+		String strRandom[] = getSP(context, SP_RANDOM_TIME).getString(SP_KEY_RANDOM_TIME_SET, "").split(",");
+		
+		if(strRandom.length != 1){
+			int i = 0;
+			for(String s: strRandom){
+				Calendar tempCal = Calendar.getInstance();
+				tempCal.setTimeInMillis(Long.parseLong(s));
+				strRandom[i] = sdf.format(tempCal.getTime());
+				i++;
+			}
+			
+			try {
+				//ema gonna be different
+				writeEventToFile(context, 10, strRandom[0], strRandom[1], strRandom[2], "", "", "");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+		}
 		
 		//start loction
 		context.sendBroadcast(new Intent(LocationUtilities.ACTION_START_LOCATION));
@@ -583,13 +619,15 @@ public class Utilities {
 	    	String triggerSeq = Utilities.SP_KEY_TRIGGER_SEQ_MAP.get(surveyName);
 			shp.edit().putInt(triggerSeq, 0).commit();
 		}
+		
+		getSP(context, SP_RANDOM_TIME).edit().remove(SP_KEY_DRINKING_TIME_SET).commit();
 	}
 	
 	public static void cancelSchedule(Context context){
 		cancelReminder(context);
 		//cancelTrigger(context);//based on new requirement
 		
-		getSP(context, SP_RANDOM_TIME).edit().clear().commit();
+		getSP(context, SP_RANDOM_TIME).edit().remove(SP_KEY_RANDOM_TIME_SET).commit();
 		getSP(context, SP_SURVEY).edit().clear().commit();
 	}
 	
@@ -709,14 +747,14 @@ public class Utilities {
 			
 			Calendar s = Calendar.getInstance();
 			s.setTimeInMillis(start);
-			s.set(Calendar.HOUR_OF_DAY, 12);
+			s.set(Calendar.HOUR_OF_DAY, 3);
 			s.set(Calendar.MINUTE, 0);
 			s.set(Calendar.SECOND, 0);
 			s.set(Calendar.MILLISECOND, 0);
 			
 			Calendar c = Calendar.getInstance();
 			c.setTimeInMillis(current);
-			c.set(Calendar.HOUR_OF_DAY, 12);
+//			c.set(Calendar.HOUR_OF_DAY, 12);
 			c.set(Calendar.MINUTE, 0);
 			c.set(Calendar.SECOND, 0);
 			c.set(Calendar.MILLISECOND, 0);
@@ -872,7 +910,7 @@ public class Utilities {
 	
 	
 	//upload
-	public static void writeEventToFile(Context context, int type, String scheduleTS, String startTS, String endTS) throws IOException{
+	public static void writeEventToFile(Context context, int type, String scheduleTS, String r1, String r2, String r3, String startTS, String endTS) throws IOException{
 		
 		Calendar endCal = Calendar.getInstance();
 		
@@ -887,7 +925,7 @@ public class Utilities {
 		sb.append(endCal.getTime().toString());
 		sb.append(",");
 		
-		sb.append(userID+","+studyDay+","+type+","+scheduleTS+","+""+","+""+","+""+","+startTS+","+endTS+",");
+		sb.append(userID+","+studyDay+","+type+","+scheduleTS+","+r1+","+r2+","+r3+","+startTS+","+endTS+",");
 //		sb.append("\n");
 		
 		/************************************************************************
