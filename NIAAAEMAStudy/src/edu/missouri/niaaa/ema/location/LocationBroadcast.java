@@ -5,15 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 
 public class LocationBroadcast extends BroadcastReceiver {
 
 	String TAG = "Location Broadcast";
 	public static LocationManager locationM;
 	public static String ID;
-	static WakeLock wl;
+//	static WakeLock wl;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -32,7 +30,7 @@ public class LocationBroadcast extends BroadcastReceiver {
 			Utilities.Log(TAG, "location recording start");
 			LocationUtilities.requestLocation(locationM);
 			
-			/*acquire wake lock*/
+			/*acquire wake lock*/			
 //			wl.acquire();
 		}
 		

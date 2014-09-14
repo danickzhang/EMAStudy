@@ -1,24 +1,24 @@
 <root>
 	<category>
 		<description>RECENT DRINKING</description>
-		<question id="q211" type="radio">
+		<question id="q1101" type="radio">
 			<text>Have you CONSUMED ALCOHOL since the last survey you answered?</text>
-			<answer id = "y" triggerFile="DrinkingFollowupParcel.xml" triggerName="DRINKING_FOLLOWUP" triggerTimes="30 m, 60 m, 120 m">Yes</answer>
-			<answer id = "n" skip="q231">No</answer>
+			<answer id = "1" triggerFile="DrinkingFollowupParcel.xml">Yes</answer>
+			<answer id = "2" skip="q1102">No</answer>
 		</question>
 	</category>
 
-	<externalsource baseid="q22" filename="DrinkingQuantityType.xml"></externalsource>
+	<externalsource baseid="q4" filename="DrinkingQuantityType.xml"></externalsource>
 
 	<category>
 		<description>RECENT SMOKING</description>
-		<question id="q231" type="radio">
+		<question id="q1102" type="radio">
 			<text>Have you SMOKED A CIGARETTE in the PAST 15 MINUTES?</text>
-			<answer id = "y">Yes</answer>
-			<answer id = "n" skip="q251">No</answer>
+			<answer id = "1">Yes</answer>
+			<answer id = "2" skip="q101">No</answer>
 		</question>
 		
-		<question id="q232" type="number">
+		<question id="q1103" type="number">
 			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
 			<answer id = "item">cigarette(s)</answer>
 			<answer id = "min">1</answer>
@@ -26,12 +26,12 @@
 		</question>
 	</category>
 
-	<externalsource baseid="q24" filename="RecentSmokingEffects.xml"></externalsource>
+	<externalsource baseid="q5" filename="RecentSmokingEffects.xml"></externalsource>
 
-	<externalsource baseid="q25" filename="MoodImpulsivityItems.xml"></externalsource>
+	<externalsource baseid="q1" filename="MoodImpulsivityItems.xml"></externalsource>
 
-	<externalsource baseid="q26" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
-	<externalsource baseid="q27" filename="AlcoholHangoverSymptoms.xml"></externalsource>
-	<externalsource baseid="q28" filename="SituationAndSetting.xml"></externalsource>
+	<externalsource baseid="q6" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
+	<externalsource baseid="q7" filename="AlcoholHangoverSymptoms.xml"></externalsource>
+	<externalsource baseid="q3" filename="SituationAndSetting.xml"></externalsource>
 	
 </root>
