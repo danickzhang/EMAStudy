@@ -28,11 +28,6 @@
 			<text id="18">How much have you felt the following IN THE PAST 15 MINUTES? ||INTERESTED</text>
 			<text id="19">How much have you felt the following IN THE PAST 15 MINUTES? ||PROUD</text>
 			<text id="20">How much have you felt the following IN THE PAST 15 MINUTES? ||STRONG</text>
-
-			<text id="21">How well does this describe you OVER THE LAST 15 MINUTES? ||I felt and acted on a strong impulse</text>
-			<text id="22">How well does this describe you OVER THE LAST 15 MINUTES? ||I did something without really thinking it through</text>
-			<text id="23">How well does this describe you OVER THE LAST 15 MINUTES? ||I gave up easily</text>
-			<text id="24">How well does this describe you OVER THE LAST 15 MINUTES? ||I did something for the thrill of it</text>
 		</questionblock>
 	</category>
 </root>

@@ -10,7 +10,7 @@
 			<answer id = "2" skip="q101">No</answer>
 		</question>
 		<question id="q802" type="number">
-			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
+			<text>How many CIGARETTES did you smoke SINCE LAST SURVEY YOU ANSWERED?</text>
 			<answer id = "item">cigarette(s)</answer>
 			<answer id = "min">0</answer>
 			<answer id = "max">24</answer>
@@ -20,6 +20,7 @@
 	<externalsource baseid="q5" filename="RecentSmokingEffects.xml"></externalsource>
 
 	<externalsource baseid="q1" filename="MoodImpulsivityItems.xml"></externalsource>
+	<externalsource baseid="q1" filename="MoodImpulsivityItemsSubset.xml"></externalsource>
 
 	<externalsource baseid="q6" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
 	<externalsource baseid="q7" filename="AlcoholHangoverSymptoms.xml"></externalsource>

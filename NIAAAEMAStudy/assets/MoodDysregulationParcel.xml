@@ -52,6 +52,7 @@
 	</category>
 
 	<externalsource baseid="q1" filename="MoodImpulsivityItems.xml"></externalsource>
+	<externalsource baseid="q1" filename="MoodImpulsivityItemsSubset.xml"></externalsource>
 
 	<externalsource baseid="q6" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
 	<externalsource baseid="q3" filename="SituationAndSetting.xml"></externalsource>

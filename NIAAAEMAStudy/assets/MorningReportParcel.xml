@@ -22,7 +22,7 @@
 	<category>
 		<description>Recent Sexual Behavior</description>
 		<question id="q203" type="radio">
-			<text>Did you HAVE ANAL OR VAGINAL SEX yesterday?</text>
+			<text>Did you have ANAL OR VAGINAL SEX yesterday?</text>
 			<answer id = "1">Yes</answer>
 			<answer id = "2" skip="q205">No</answer>
 		</question>
@@ -41,7 +41,7 @@
 			<answer id = "2" skip="q101">No</answer>
 		</question>
 		<question id="q206" type="number">
-			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
+			<text>How many CIGARETTES did you smoke SINCE LAST SURVEY YOU ANSWERED?</text>
 			<answer id = "item">cigarette(s)</answer>
 			<answer id = "min">1</answer>
 			<answer id = "max">24</answer>
@@ -51,6 +51,7 @@
 	<externalsource baseid="q5" filename="RecentSmokingEffects.xml"></externalsource>
 
 	<externalsource baseid="q1" filename="MoodImpulsivityItems.xml"></externalsource>
+	<externalsource baseid="q1" filename="MoodImpulsivityItemsSubset.xml"></externalsource>
 
 	<externalsource baseid="q6" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
 	<externalsource baseid="q7" filename="AlcoholHangoverSymptoms.xml"></externalsource>

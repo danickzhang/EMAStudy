@@ -2,14 +2,14 @@
 	<category>
 		<description>Drinking Quantity and Type</description>
 		<question id="1" type="number">
-			<text>How many ALCOHOLIC DRINKS did you have?</text>
+			<text>Remember, 1 drink = 12 ounce beer, 5 ounces of wine, OR 1.5 ounces of hard liquor (a shot alone or in a mixed drink).|How many ALCOHOLIC DRINKS did you have?</text>
 			<answer id = "item">drink(s)</answer>
 			<answer id = "min">1</answer>
 			<answer id = "max">24</answer>
 		</question>
 		
 		<question id = "2" type = "check">
-			<text>What type of alcohol did you have? (check all that apply)</text>
+			<text>What type of alcohol did you have SINCE LAST SURVEY YOU ANSWERED? (check all that apply)</text>
 			<answer id = "1">Hard liquor alone or in a drink</answer>
 			<answer id = "2">Wine</answer>
 			<answer id = "3">Beer</answer>

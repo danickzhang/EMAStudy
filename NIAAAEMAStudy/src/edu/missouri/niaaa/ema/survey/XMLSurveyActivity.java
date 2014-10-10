@@ -480,7 +480,7 @@ public class XMLSurveyActivity extends Activity {
     	@Override    	
     	public void run(){ 
     		
-    		streamID = soundp.play(soundsMap.get(1), 1, 1, 1, 2, 1); // ema should be different 
+    		streamID = soundp.play(soundsMap.get(1), 1, 1, 1, 0, 1); // ema should be different 
     	}
     }
 	
@@ -864,7 +864,7 @@ public class XMLSurveyActivity extends Activity {
     	}
 		
     	//haidong
-    	else if(surveyName.equals(Utilities.SV_NAME_RANDOM)){
+    	if(surveyName.equals(Utilities.SV_NAME_RANDOM)){
     		
 			String rsID = String.valueOf(randomSeq);
 			Calendar rsT = Calendar.getInstance();
@@ -877,7 +877,7 @@ public class XMLSurveyActivity extends Activity {
     	//--
 		
     	//schedule drinking follow-ups if current completion is "initial drinking" or "random survey" with condition 
-    	else if(surveyName.equals(Utilities.SV_NAME_DRINKING) || hasTrigger){// and followup triggers followup 
+    	if(surveyName.equals(Utilities.SV_NAME_DRINKING) || hasTrigger){// and followup triggers followup 
     		Utilities.triggerDrinkingFollowup(this);
     	}
     	

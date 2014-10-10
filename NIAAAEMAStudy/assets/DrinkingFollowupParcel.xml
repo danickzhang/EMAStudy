@@ -2,8 +2,8 @@
 	<category>
 		<description>Drinking Follow-up</description>
 		<question id="q1201" type="radio">
-			<text>Have you CONSUMED ALCOHOL since the last recording?</text>
-			<answer id = "1">Yes</answer>
+			<text>Did you drink ALCOHOL SINCE LAST SURVEY YOU ANSWERED</text>
+			<answer id = "1" triggerFile="DrinkingFollowupParcel.xml">Yes</answer>
 			<answer id = "2" skip="q1202">No</answer>
 		</question>
 	</category>
@@ -20,7 +20,7 @@
 			<answer id = "2" skip="q101">No</answer>
 		</question>
 		<question id="q1203" type="number">
-			<text>How many CIGARETTES did you smoke SINCE LAST RECORDING?</text>
+			<text>How many CIGARETTES did you smoke SINCE LAST SURVEY YOU ANSWERED?</text>
 			<answer id = "item">cigarette(s)</answer>
 			<answer id = "min">1</answer>
 			<answer id = "max">24</answer>
@@ -30,6 +30,7 @@
 	<externalsource baseid="q5" filename="RecentSmokingEffects.xml"></externalsource>
 
 	<externalsource baseid="q1" filename="MoodImpulsivityItems.xml"></externalsource>
+	<externalsource baseid="q1" filename="MoodImpulsivityItemsSubset.xml"></externalsource>
 
 	<externalsource baseid="q6" filename="AlcoholSmokingUrgeCraving.xml"></externalsource>
 	<externalsource baseid="q7" filename="AlcoholHangoverSymptoms.xml"></externalsource>
