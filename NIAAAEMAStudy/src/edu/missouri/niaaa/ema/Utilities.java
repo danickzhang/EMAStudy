@@ -276,16 +276,16 @@ public class Utilities {
 /*	Craving Study*/
 //	public final static String VALIDATE_ADDRESS = 			"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/validateUser.php";
 //	public final static String WRITE_ARRAY_TO_FILE = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/writeArrayToFile.php";
-//	public final static String WRITE_ARRAY_TO_FILE_DEC = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/writeArrayToFileDec.php";
+//	public final static String WRITE_ARRAY_TO_FILE_DEC = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/writeArrayToFileDec.php";
 //	public final static String COMPLIANCE_ADDRESS = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/compliance.php";
-//	public final static String STUDY_DAY_MODIFY_ADDRESS = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/changeStudyWeek.php";
+//	public final static String STUDY_DAY_MODIFY_ADDRES = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/Crt2/changeStudyWeek.php";
 	
 /*	EMA-STL Study*/
-	public final static String VALIDATE_ADDRESS = 			"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/validateUser.php";
-	public final static String WRITE_ARRAY_TO_FILE = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/writeArrayToFile.php";
-	public final static String WRITE_ARRAY_TO_FILE_DEC = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/writeArrayToFileDec.php";
-	public final static String COMPLIANCE_ADDRESS = 		"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/compliance.php";
-	public final static String STUDY_DAY_MODIFY_ADDRESS = 	"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtEMA/changeStudyWeek.php";
+	public final static String VALIDATE_ADDRESS = 			"https://dslsrv8.cs.missouri.edu/webapps/CrtEMA/validateUserDec.php";
+	public final static String WRITE_ARRAY_TO_FILE = 		"https://dslsrv8.cs.missouri.edu/webapps/CrtEMA/writeArrayToFile.php";
+	public final static String WRITE_ARRAY_TO_FILE_DEC = 		"https://dslsrv8.cs.missouri.edu/webapps/CrtEMA/writeArrayToFileDec.php";
+	public final static String COMPLIANCE_ADDRESS = 		"https://dslsrv8.cs.missouri.edu/webapps/CrtEMA/complianceDec.php";
+	public final static String STUDY_DAY_MODIFY_ADDRESS = 		"https://dslsrv8.cs.missouri.edu/webapps/CrtEMA/changeStudyWeekDec.php";
 	
 /*	NIMH Emotion Study*/
 //	public final static String VALIDATE_ADDRESS = 			"http://dslsrv8.cs.missouri.edu/~hw85f/Server/CrtNIMH/validateUser.php";
